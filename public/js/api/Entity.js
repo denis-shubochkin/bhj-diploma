@@ -11,7 +11,12 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list( data, callback = f => f ) {
-
+    const xhr = createRequest({
+        data: data,
+        method: 'GET',
+        url: `${Entity.HOST}${Entity.URL}`,
+        callback;
+      })
   }
 
   /**
@@ -20,7 +25,13 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f ) {
-
+    const modifiedData = Object.assign({ _method: 'PUT' }, data );
+    const xhr = createRequest({
+      data: modifiedData,
+      method: 'POST',
+      url: `${Entity.HOST}${Entity.URL}`,
+      callback;
+    })
   }
 
   /**
@@ -28,7 +39,13 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
-
+    const modifiedData = Object.assign({ id: id }, data );  
+    const xhr = createRequest({
+      data: modifiedData,
+      method: 'GET',
+      url: `${Entity.HOST}${Entity.URL}`,
+      callback;
+    })
   }
 
   /**
@@ -36,7 +53,13 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f ) {
-
+    let modifiedData = Object.assign({ _method: 'DELETE', id: id }, data );
+    const xhr = createRequest({
+      data: modifiedData,
+      method: 'POST',
+      url: `${Entity.HOST}${Entity.URL}`,
+      callback;
+    })
   }
 }
 
