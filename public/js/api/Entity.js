@@ -15,7 +15,10 @@ class Entity {
         data: data,
         method: 'GET',
         url: `${Entity.HOST}${Entity.URL}`,
-        callback;
+        callback: ( err, response ) => {
+          console.log( err ); // null
+          console.log( response ); // ответ
+        }
       })
   }
 
@@ -30,7 +33,10 @@ class Entity {
       data: modifiedData,
       method: 'POST',
       url: `${Entity.HOST}${Entity.URL}`,
-      callback;
+      callback: ( err, response ) => {
+        console.log( err ); // null
+        console.log( response ); // ответ
+      }
     })
   }
 
@@ -44,7 +50,10 @@ class Entity {
       data: modifiedData,
       method: 'GET',
       url: `${Entity.HOST}${Entity.URL}`,
-      callback;
+      callback: ( err, response ) => {
+        console.log( err ); // null
+        console.log( response ); // ответ
+      }
     })
   }
 
@@ -58,7 +67,10 @@ class Entity {
       data: modifiedData,
       method: 'POST',
       url: `${Entity.HOST}${Entity.URL}`,
-      callback;
+      callback: ( err, response ) => {
+        console.log( err ); // null
+        console.log( response ); // ответ
+      }
     })
   }
 }

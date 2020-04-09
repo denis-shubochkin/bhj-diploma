@@ -11,8 +11,8 @@ const createRequest = (options = {}) => {
             xhr.open(`GET`, `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
             xhr.send();
         }
-        catch (e) {
-            options.callback(e);
+        catch (err) {
+            options.callback(err);
             return xhr;
         }
     }
@@ -26,17 +26,18 @@ const createRequest = (options = {}) => {
             xhr.open('POST', `${options.url}`);
             xhr.send(formData);
         }
-        catch (e) 
+        catch (err) 
         {
-            options.callback(e);
+            options.callback(err);
             return xhr;
         }
         xhr.onreadystatechange = function ()
         {
             if (xhr.readyState===4)
             {
-                let result = xhr.responseText;
-                options.callback(null,result);
+                let response = xhr.responseText;
+                options.callback(null,response);
+            
                 return xhr;
             }
         }   

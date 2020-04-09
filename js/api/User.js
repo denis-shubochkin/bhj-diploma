@@ -5,8 +5,10 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  this.HOST = Entity.HOST;
-  this.URL = '/user';
+ 
+  host = Entity.HOST;
+  url = '/user';
+  }
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
@@ -39,13 +41,19 @@ class User {
     const xhr = createRequest({
       data: data,
       method: 'GET',
-      url: `${this.HOST}${this.URL}`,
-      callback (err, response) {
+      url: `${this.host}${this.url}/current`,
+      callback: ( err, response ) => {
+        if(response.success === false && response.error = 'Необходима авторизация')
+        {
+          return response;
+        }
         if ( response && response.user ) {
           User.setCurrent( response.user );
         }
-        callback( err, response );
-      };
+        if (response.success === false && !response.user)
+        {
+          User.unsetCurrent();
+        }
     })
   }
 
@@ -56,7 +64,17 @@ class User {
    * User.setCurrent.
    * */
   static login( data, callback = f => f ) {
-
+    const xhr = createRequest({
+      data: data,
+      method: 'POST',
+      url: `${this.host}${this.url}/login`,
+      callback: ( err, response ) => {
+        if(response.success === true)
+        {
+          User.setCurrent(response.user);
+        }
+      }
+  })
   }
 
   /**
@@ -66,14 +84,34 @@ class User {
    * User.setCurrent.
    * */
   static register( data, callback = f => f ) {
-
-  }
+    const xhr = createRequest({
+      data: data,
+      method: 'POST',
+      url: `${this.host}${this.url}/register`,
+      callback: ( err, response ) => {
+        if(response.success === true)
+        {
+          User.setCurrent(response.user);
+        }
+      }
+  })
+}
 
   /**
    * Производит выход из приложения. После успешного
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout( data, callback = f => f ) {
-
+    const xhr = createRequest({
+      data: data,
+      method: 'POST',
+      url: `${this.host}${this.url}/logout`,
+      callback: ( err, response ) => {
+        if(response.success === true)
+        {
+          User.unsetCurrent();
+        }
+      }
+  })
   }
 }
