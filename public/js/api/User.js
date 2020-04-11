@@ -37,15 +37,11 @@ class User {
       method: 'GET',
       url: `${this.host}${this.url}/current`,
       callback ( err, response ) {
-        if(response.success === false && response.error === 'Необходима авторизация')
-        {
-          return response;
-        }
         if ( response && response.user ) {
           let json = JSON.parse(response)
           User.setCurrent( json.response.user );
         }
-        if (response.success === false && !response.user)
+        else
         {
           User.unsetCurrent();
         }
