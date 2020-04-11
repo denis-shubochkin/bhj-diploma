@@ -30,10 +30,10 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    let c = this.element.querySelectorAll('[data-dismiss="modal"]')
-    for (let i =0;i<c.length;i++){
-      c[i].addEventListener('click', this.onClose.call(this)); 
-    }
+   // let c = this.element.querySelectorAll('[data-dismiss="modal"]')
+    this.onClose = this.onClose.bind( this );
+      this.element.addEventListener('click',  this.onClose); 
+  
   }
 
   /**
@@ -41,17 +41,22 @@ class Modal {
    * Закрывает текущее окно (Modal.close())
    * */
   onClose( e ) {
+    const target = e.target;
+    if (target.closest( '[data-dismiss="modal"]' ))
+    {
     this.close();
+    }
   }
   /**
    * Удаляет обработчики событий
    * */
   unregisterEvents() {
-    let c = this.element.querySelectorAll('[data-dismiss="modal"]')
-    for (let i =0;i<c.length;i++){
-      c[i].removeEventListener('click',this.onClose(c[i]));
+   // let c = this.element.querySelectorAll('[data-dismiss="modal"]')
+    //for (let i =0;i<c.length;i++){
+      this.onClose = this.onClose.bind( this );
+      this.element.removeEventListener('click',this.onClose);
     }
-  }
+
   /**
    * Открывает окно: устанавливает CSS-свойство display
    * со значением «block»

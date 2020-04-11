@@ -14,10 +14,11 @@ class Entity {
     const xhr = createRequest({
         data: data,
         method: 'GET',
-        url: `${Entity.HOST}${Entity.URL}`,
+        url: this.HOST + this.URL,
         callback: ( err, response ) => {
           console.log( err ); // null
           console.log( response ); // ответ
+          callback(err,response);
         }
       })
   }
@@ -32,10 +33,11 @@ class Entity {
     const xhr = createRequest({
       data: modifiedData,
       method: 'POST',
-      url: `${Entity.HOST}${Entity.URL}`,
+      url: this.HOST + this.URL,
       callback: ( err, response ) => {
         console.log( err ); // null
         console.log( response ); // ответ
+        callback(err,response);
       }
     })
   }
@@ -49,10 +51,11 @@ class Entity {
     const xhr = createRequest({
       data: modifiedData,
       method: 'GET',
-      url: `${Entity.HOST}${Entity.URL}`,
+      url: this.HOST + this.URL,
       callback: ( err, response ) => {
         console.log( err ); // null
         console.log( response ); // ответ
+        callback(err,response);
       }
     })
   }
@@ -66,10 +69,11 @@ class Entity {
     const xhr = createRequest({
       data: modifiedData,
       method: 'POST',
-      url: `${Entity.HOST}${Entity.URL}`,
+      url: this.HOST + this.URL,
       callback: ( err, response ) => {
         console.log( err ); // null
         console.log( response ); // ответ
+        callback(err,response);
       }
     })
   }

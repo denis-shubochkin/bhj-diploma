@@ -7,13 +7,6 @@
  * */
 class User {
  
-  host = Entity.HOST;
-  url = '/user';
-  }
-  /**
-   * Устанавливает текущего пользователя в
-   * локальном хранилище.
-   * */
   static setCurrent(user) {
     localStorage.setItem('user', user);
   }
@@ -43,20 +36,23 @@ class User {
       data: data,
       method: 'GET',
       url: `${this.host}${this.url}/current`,
-      callback: ( err, response ) => {
-        if(response.success === false && response.error = 'Необходима авторизация')
+      callback ( err, response ) {
+        if(response.success === false && response.error === 'Необходима авторизация')
         {
           return response;
         }
         if ( response && response.user ) {
-          User.setCurrent( response.user );
+          let json = JSON.parse(response)
+          User.setCurrent( json.response.user );
         }
         if (response.success === false && !response.user)
         {
           User.unsetCurrent();
         }
-    })
-  }
+        callback( err, response );
+    }
+  })
+}
 
   /**
    * Производит попытку авторизации.
@@ -69,11 +65,13 @@ class User {
       data: data,
       method: 'POST',
       url: `${this.host}${this.url}/login`,
-      callback: ( err, response ) => {
+      callback ( err, response )  {
         if(response.success === true)
         {
-          User.setCurrent(response.user);
+          let json = JSON.parse(response)
+          User.setCurrent( json.response.user );
         }
+        callback( err, response );
       }
   })
   }
@@ -89,11 +87,13 @@ class User {
       data: data,
       method: 'POST',
       url: `${this.host}${this.url}/registerr`,
-      callback: ( err, response ) => {
+      callback ( err, response ) {
         if(response.success === true)
         {
-          User.setCurrent(response.user);
+          let json = JSON.parse(response)
+          User.setCurrent( json.response.user );
         }
+        callback( err, response );
       }
   })
 }
@@ -107,12 +107,22 @@ class User {
       data: data,
       method: 'POST',
       url: `${this.host}${this.url}/logout`,
-      callback: ( err, response ) => {
+      callback ( err, response ) {
         if(response.success === true)
         {
           User.unsetCurrent();
         }
+        callback( err, response );
       }
   })
   }
+
 }
+
+  User.host = Entity.HOST;
+  User.url = '/user';
+  /**
+   * Устанавливает текущего пользователя в
+   * локальном хранилище.
+   * */
+  
