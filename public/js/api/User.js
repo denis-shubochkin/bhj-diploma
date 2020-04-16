@@ -8,7 +8,7 @@
 class User {
  
   static setCurrent(user) {
-    localStorage.setItem('user', user);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**
@@ -24,7 +24,8 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    return localStorage.user;
+    if (typeof(localStorage.user) === 'object') {return JSON.parse(localStorage.user);}
+    else {return localStorage.user;}
   }
 
   /**
@@ -38,8 +39,7 @@ class User {
       url: `${this.host}${this.url}/current`,
       callback ( err, response ) {
         if ( response && response.user ) {
-          let json = JSON.parse(response)
-          User.setCurrent( json.response.user );
+          User.setCurrent( response.user );
         }
         else
         {
@@ -64,8 +64,7 @@ class User {
       callback ( err, response )  {
         if(response.success === true)
         {
-          let json = JSON.parse(response)
-          User.setCurrent( json.response.user );
+          User.setCurrent( response.user );
         }
         callback( err, response );
       }
@@ -86,8 +85,7 @@ class User {
       callback ( err, response ) {
         if(response.success === true)
         {
-          let json = JSON.parse(response)
-          User.setCurrent( json.response.user );
+          User.setCurrent( response.user );
         }
         callback( err, response );
       }

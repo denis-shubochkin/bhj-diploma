@@ -28,19 +28,11 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    function f(event) {
-      // for (let i =0;i<inputs.length;i++)
-      // {
-      //     if(inputs[i].value != '')
-      //     {
-      //       alert('Заполните формы');
-      //       return;
-      //     }
-      // }
+function f(event) {
       event.preventDefault();
-        this.submit();
+     // console.log(this.element.checkValidity())
+          this.submit();
     }
-    let inputs = this.element.getElementsByTagName('input');
     this.element.addEventListener('submit',f);
   }
 

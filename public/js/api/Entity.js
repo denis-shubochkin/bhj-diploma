@@ -16,8 +16,6 @@ class Entity {
         method: 'GET',
         url: this.HOST + this.URL,
         callback: ( err, response ) => {
-          console.log( err ); // null
-          console.log( response ); // ответ
           callback(err,response);
         }
       })
@@ -35,8 +33,6 @@ class Entity {
       method: 'POST',
       url: this.HOST + this.URL,
       callback: ( err, response ) => {
-        console.log( err ); // null
-        console.log( response ); // ответ
         callback(err,response);
       }
     })
@@ -53,10 +49,8 @@ class Entity {
       method: 'GET',
       url: this.HOST + this.URL,
       callback: ( err, response ) => {
-        console.log( err ); // null
-        console.log( response ); // ответ
         callback(err,response);
-      }
+      } 
     })
   }
 
@@ -71,8 +65,6 @@ class Entity {
       method: 'POST',
       url: this.HOST + this.URL,
       callback: ( err, response ) => {
-        console.log( err ); // null
-        console.log( response ); // ответ
         callback(err,response);
       }
     })

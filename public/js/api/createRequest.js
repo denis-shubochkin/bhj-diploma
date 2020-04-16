@@ -4,9 +4,10 @@
  * */
 const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
+    let string ='';
     if (options.method==='GET')
     {
-        let string ='';
+        
         let counter = 0;
         for (let key in options.data)
         {
@@ -18,16 +19,6 @@ const createRequest = (options = {}) => {
                 string = string+'&'+key+'='+options.data[key];
             }
         }
-        try
-        {
-            xhr.open(`GET`, options.url+string);
-            xhr.responseType = 'json';
-            xhr.send();
-        }
-        catch (err) {
-            options.callback(err);
-            return xhr;
-        }
     }
     else
     {
@@ -36,29 +27,34 @@ const createRequest = (options = {}) => {
         {
         formData.append(key,options.data[key]);
         }
+    }
         try
-        {
-            xhr.open('POST', `${options.url}`);
+        {   
+            xhr.open(options.method, options.url+string);
             xhr.responseType = 'json';
-            xhr.send(formData);
+            if(options.method==='GET') {xhr.send();}
+            else {xhr.send(formData);}
         }
-        catch (err) 
-        {
+        catch (err) {
             options.callback(err);
+            return xhr;
         }
         xhr.onreadystatechange = function ()
         {
             if (xhr.readyState===4)
             {
-                let response = xhr.responseText;
+                let response = xhr.responseJSON;
                 xhr.onload = function () {
                     options.callback(null,response);
                 }
+            }
+            else
+            {
                 xhr.onerror = function () {
                     options.callback(err);
                 }
             }
         }   
-    }
+    
     
 };
