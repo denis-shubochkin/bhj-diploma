@@ -49,7 +49,7 @@ class Sidebar {
 
     function logoutF(event) {
       event.preventDefault();
-      User.logout(localStorage.user, () => 
+      User.logout(User.current(), (err,response) => 
         {
             if(!err)
             {

@@ -11,13 +11,15 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-    if(!element)
+    try
     {
-      alert('Элемент не найден');
-    }
-    else {
       this.element = element;
       this.registerEvents();
+    }
+    catch(e)
+    {
+      alert('Элемент не найден');
+      return e;
     }
   }
 
@@ -25,7 +27,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.render(options);
+    this.render();
   }
 
   /**
@@ -35,18 +37,31 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    function removeAccF (event) {
-      event.preventDefault();
+    // function removeAccTransF (event) {
+    //   if(event.target.classList.contains('remove-account'))
+    //   {event.preventDefault();
+    //   this.removeAccount();
+    //   }
+    //   if(event.target.classList.contains('transaction__remove'))
+    //   {
+    //   event.preventDefault();
+    //   this.removeTransaction(event.target.dataset.id);
+    //   }
+    // }
+   // let accDel = this.element.querySelector('.remove-account');
+   // let transDel = this.element.querySelector('.transaction__remove');
+    window.addEventListener('click',(event) => {
+      if(event.target.classList.contains('remove-account'))
+      {event.preventDefault();
       this.removeAccount();
-    }
-    function removeTransF (event) {
+      }
+      if(event.target.classList.contains('transaction__remove'))
+      {
       event.preventDefault();
       this.removeTransaction(event.target.dataset.id);
-    }
-    let accDel = this.element.querySelector('.remove-account');
-    let transDel = this.element.querySelector('.transaction__remove');
-    accDel.addEventListener('click',removeAccF);
-    if(transDel) {transDel.addEventListener('click',removeTransF);}
+      }
+    })
+  // if(transDel) {transDel.addEventListener('click',removeTransF);}
 
   }
 
@@ -59,6 +74,7 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
+    console.log(this);
     if(!lastOptions) 
     {
       return;

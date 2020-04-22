@@ -21,9 +21,10 @@ class CreateTransactionForm extends AsyncForm {
     if(User.current())
      {
       let bills = [];  
-       Account.list(User.current,() => {
-         if(!err) 
+       Account.list(User.current(),(err,response) => {
+         if(!err && response.transactions) 
          {
+             bills = [];
              bills = response.transactions;
              for (let i =0;i<bills.length;i++){
                this.element.querySelector('.accounts-select').insertAdjacentHTML('beforeEnd',

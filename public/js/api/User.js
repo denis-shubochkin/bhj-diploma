@@ -24,8 +24,10 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    if (typeof(localStorage.user) === 'object') {return JSON.parse(localStorage.user);}
-    else {return localStorage.user;}
+    
+    if(localStorage.user) {
+      return JSON.parse(localStorage.user)
+    }
   }
 
   /**
@@ -33,6 +35,7 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch( data, callback = f => f ) {
+
     const xhr = createRequest({
       data: data,
       method: 'GET',
@@ -66,6 +69,11 @@ class User {
         {
           User.setCurrent( response.user );
         }
+        else 
+        {
+          err = response.error;
+          alert(response.error);
+        }
         callback( err, response );
       }
   })
@@ -81,11 +89,17 @@ class User {
     const xhr = createRequest({
       data: data,
       method: 'POST',
-      url: `${this.host}${this.url}/registerr`,
+      url: `${this.host}${this.url}/register`,
       callback ( err, response ) {
         if(response.success === true)
         {
           User.setCurrent( response.user );
+        }
+        else 
+        {
+          err = response.error;
+          Object.prototype.toString.call(err) === '[object Object]';
+          alert(JSON.stringify(err));
         }
         callback( err, response );
       }
@@ -113,7 +127,7 @@ class User {
 
 }
 
-  User.host = Entity.HOST;
+  User.host = Entity.host;
   User.url = '/user';
   /**
    * Устанавливает текущего пользователя в

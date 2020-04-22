@@ -13,14 +13,16 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if(!element)
+    try
     {
-      alert('Элемент не найден');
-    }
-    else {
       this.element = element;
       this.registerEvents();
       this.update();
+    }
+    catch(e)
+    {
+      alert('Элемент не найден');
+      return e;
     }
   }
 
@@ -33,20 +35,24 @@ class AccountsWidget {
    * */
   registerEvents() {
     function createAccF (event) {
-      event.prevenDefault();
-      App.getModal('createAccount').open();
-    }
-    function currAccF (event) {
+      if(event.target.classList.contains('create-account'))
+      {
+        event.preventDefault();
+        App.getModal('createAccount').open();
+      }
+      if(event.target.classList.contains('account'))
+      {
       event.prevenDefault();
       AccountsWidget.onSelectAccount(event.target);
+      }
     }
-    let createAccBut = document.querySelector('.create-account');
-    let currAccBut = document.querySelectorAll('.account');
-    createAccBut.addEventListener('click',createAccF);
-    for (let i =0;i<currAccBut.length;i++)
-    {
-        currAccBut[i].addEventListener('click',currAccF);
-    }
+    //let createAccBut = document.querySelector('.create-account');
+    //let currAccBut = document.querySelectorAll('.account');
+    window.addEventListener('click',createAccF);
+   // for (let i =0;i<currAccBut.length;i++)
+   // {
+   //     currAccBut[i].addEventListener('click',currAccF);
+  //  }
   }
 
   /**
@@ -60,16 +66,18 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-     if(User.current())
+    if(User.current())
      {
       let bills = [];  
-       Account.list(User.current(),() => {
-         if(!err) 
+      Account.list(User.current(),(err,response) => {
+         if(!err && response.transactions) 
          {
+             bills = [];
              bills = response.transactions;
              this.clear();
-             for (let i =0;i<bills.length;i++){
-               this.renderItem(bills[i]);
+             for (let i =0; i<bills.length; i++)
+             {
+                this.renderItem(bills[i]);
              }
          }
        })
@@ -83,7 +91,7 @@ class AccountsWidget {
    * */
   clear() {
     let elToDel = document.querySelectorAll('.account');
-    for (let i =0;i<elToDel.length;i++)
+    for (let i =0; i<elToDel.length; i++)
     {
         elToDel[i].remove();
     }
@@ -100,6 +108,7 @@ class AccountsWidget {
    let actEl = document.querySelector('.active');
     actEl.classList.remove('active');
     element.classList.add('active');
+    App.showPage( 'transactions', { 'account_id': element.dataset.id });
   }
 
   /**

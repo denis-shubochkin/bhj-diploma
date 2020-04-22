@@ -11,12 +11,14 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if(!element)
+    try
+    {
+      this.element = element;
+    }
+    catch(e)
     {
       alert('Элемент не найден');
-    }
-    else {
-      this.element = element;
+      return e;
     }
   }
 
@@ -28,9 +30,9 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update() {
-    if(localStorage.user)
+    if(User.current())
     {
-        this.element.querySelector('.user-name').textContent = User.current().name;
+      this.element.querySelector('.user-name').textContent = User.current().name;
     }
   }
 }

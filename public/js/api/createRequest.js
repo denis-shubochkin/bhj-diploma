@@ -1,3 +1,4 @@
+
 /**
  * Основная функция для совершения запросов
  * на сервер.
@@ -32,6 +33,7 @@ const createRequest = (options = {}) => {
         {   
             xhr.open(options.method, options.url+string);
             xhr.responseType = 'json';
+            //xhr.withCredentials = true;
             if(options.method==='GET') {xhr.send();}
             else {xhr.send(formData);}
         }
@@ -39,22 +41,24 @@ const createRequest = (options = {}) => {
             options.callback(err);
             return xhr;
         }
+
         xhr.onreadystatechange = function ()
         {
             if (xhr.readyState===4)
             {
-                let response = xhr.responseJSON;
+                
                 xhr.onload = function () {
-                    options.callback(null,response);
+                    options.callback(null,xhr.response);
                 }
             }
             else
             {
                 xhr.onerror = function () {
                     options.callback(err);
+                    console.log(err);
                 }
             }
         }   
-    
+   
     
 };
