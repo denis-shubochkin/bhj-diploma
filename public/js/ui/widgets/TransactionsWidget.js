@@ -11,15 +11,12 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    try
-    {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
       this.element = element;
       this.registerEvents();
-    }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
     }
   }
   /**
@@ -31,16 +28,12 @@ class TransactionsWidget {
   registerEvents() {
     function incomeF(event) {
       event.preventDefault();
-      if(App.getModal('createIncome')!=undefined)
-      {App.getModal('createIncome').open();}
-      else {alert('Необходимо выбрать счет');}
+      App.getModal('newIncome').open();
     }
 
     function expenseF(event) {
       event.preventDefault();
-      if(App.getModal('createExpense')!=undefined)
-      {App.getModal('createExpense').open();}
-      else {alert('Необходимо выбрать счет');}
+      App.getModal('newExpense').open();
     }
 
     this.element.querySelector('.create-income-button').addEventListener('click', incomeF);

@@ -15,7 +15,7 @@ class Entity {
         data: data,
         method: 'GET',
         url: this.host + this.url,
-        callback(err,response)  {callback(err,response)}
+        callback
       })
       //  console.log(xhr);
       
@@ -34,7 +34,7 @@ class Entity {
       data: modifiedData,
       method: 'POST',
       url: this.host + this.url,
-      callback(err,response)  {callback(err,response)}
+      callback
     })
    
   }
@@ -49,7 +49,7 @@ class Entity {
       data: data,
       method: 'GET',
       url: this.host + this.url + `/${id}`,
-      callback (err,response)  {callback(err,response)}
+      callback 
     })
     //callback(err,response);
   }
@@ -63,9 +63,10 @@ class Entity {
     const xhr = createRequest({
       data: modifiedData,
       method: 'POST',
-      url: this.host + this.url + `/${id}`
+      url: this.host + this.url + `/${id}`,
+      callback
     })
-    callback(err,response);
+    
   }
 }
 

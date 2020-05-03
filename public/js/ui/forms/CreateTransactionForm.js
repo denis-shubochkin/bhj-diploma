@@ -9,8 +9,13 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor( element ) {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
     super(element);
     this.renderAccountsList();
+    }
   }
 
   /**
@@ -22,10 +27,10 @@ class CreateTransactionForm extends AsyncForm {
      {
       let bills = [];  
        Account.list(User.current(),(err,response) => {
-         if(!err && response.transactions) 
+         if(response.success && response.data) 
          {
              bills = [];
-             bills = response.transactions;
+             bills = response.data;
              for (let i =0;i<bills.length;i++){
                this.element.querySelector('.accounts-select').insertAdjacentHTML('beforeEnd',
                `<option value="${bills[i].id}">${bills[i].name}</option>`
@@ -44,8 +49,8 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit( options ) {
-    Transaction.create(options, () => {
-      if(!err)
+    Transaction.create(options, (err,response) => {
+      if(response.success)
       {
         this.element.reset();
         if(this.element.id==='new-income-form') {App.getModal('newIncome').close();}

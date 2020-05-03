@@ -11,14 +11,11 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    try
-    {
-      this.element = element;
+    if(!element){
+      throw new Error('элемент не найден');
     }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
+    else {
+      this.element = element;
     }
   }
 

@@ -14,15 +14,12 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    try
-    {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
       this.element = element;
       this.registerEvents();
-    }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
     }
     }
 

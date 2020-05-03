@@ -51,7 +51,7 @@ class Sidebar {
       event.preventDefault();
       User.logout(User.current(), (err,response) => 
         {
-            if(!err)
+            if(response.success)
             {
                 App.setState('init');
             }

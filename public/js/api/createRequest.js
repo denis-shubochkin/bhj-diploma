@@ -33,7 +33,7 @@ const createRequest = (options = {}) => {
         {   
             xhr.open(options.method, options.url+string);
             xhr.responseType = 'json';
-            //xhr.withCredentials = true;
+            xhr.withCredentials = true;
             if(options.method==='GET') {xhr.send();}
             else {xhr.send(formData);}
         }
@@ -54,8 +54,9 @@ const createRequest = (options = {}) => {
             else
             {
                 xhr.onerror = function () {
+                    const err = new Error( 'Request Error' );
                     options.callback(err);
-                    console.log(err);
+                   // console.log(err);
                 }
             }
         }   

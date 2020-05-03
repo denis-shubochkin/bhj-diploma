@@ -25,9 +25,7 @@ class User {
    * */
   static current() {
     
-    if(localStorage.user) {
-      return JSON.parse(localStorage.user)
-    }
+    return localStorage.user && JSON.parse(localStorage.user)
   }
 
   /**
@@ -94,12 +92,6 @@ class User {
         if(response.success === true)
         {
           User.setCurrent( response.user );
-        }
-        else 
-        {
-          err = response.error;
-          Object.prototype.toString.call(err) === '[object Object]';
-          alert(JSON.stringify(err));
         }
         callback( err, response );
       }

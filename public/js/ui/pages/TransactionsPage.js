@@ -11,23 +11,20 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-    try
-    {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
       this.element = element;
       this.registerEvents();
-    }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
     }
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
-  update() {
-    this.render();
+  update(options) {
+    this.render(options);
   }
 
   /**
@@ -50,7 +47,7 @@ class TransactionsPage {
     // }
    // let accDel = this.element.querySelector('.remove-account');
    // let transDel = this.element.querySelector('.transaction__remove');
-    window.addEventListener('click',(event) => {
+    this.element.addEventListener('click',(event) => {
       if(event.target.classList.contains('remove-account'))
       {event.preventDefault();
       this.removeAccount();
@@ -75,7 +72,7 @@ class TransactionsPage {
    * */
   removeAccount() {
     console.log(this);
-    if(!lastOptions) 
+    if(this.lastOptions === undefined) 
     {
       return;
     }
@@ -83,14 +80,13 @@ class TransactionsPage {
     {
       if(confirm('Вы действительно хотите удалить счёт?'))
       {
-          Account.remove(lastOptions.account_id,User.current(),() => {
-            if(!err){
+          Account.remove(lastOptions.account_id,User.current(),(err,response) => {
+            if(response.success){
               App.update();
             }
           }) 
           this.clear();
       }
-      else {return;}
     }
   }
 
@@ -102,8 +98,8 @@ class TransactionsPage {
   removeTransaction( id ) {
     if(confirm('Вы действительно хотите удалить эту транзакцию?'))
     {
-        Transaction.remove(id,User.current(),() => {
-          if(!err)
+        Transaction.remove(id,User.current(),(err,response) => {
+          if(response.success)
           {
             App.update();
           }
@@ -126,15 +122,15 @@ if(!options)
 else 
 {
   let lastOptions = options;
-  Account.get(lastOptions.account_id, () => {
-    if(!err)
+  Account.get(lastOptions.account_id, (err,response) => {
+    if(response.success)
     {
-      TransactionsPage.renderTitle(response.transaction.name);
+      this.element.renderTitle(response.data.name);
     }
   })
-  Transaction.list(User.current(),() => {
-    if(!err) {
-      TransactionsPage.renderTransactions(response.transactions);
+  Transaction.list(User.current(),(err,response) => {
+    if(response.success) {
+      this.element.renderTransactions(response.data);
     }
   })
 }
@@ -219,6 +215,9 @@ return `${a.getDate()} ${month[a.getMonth()]} ${a.getFullYear()} г. в ${a.getH
    * */
   renderTransactions( data ) {
     let content = document.querySelector('.content');
-    content.insertAdjacentHTML('beforeend',this.getTransactionHTML(data));
+    for (let i=0;i<data.length;i++)
+    {
+        content.insertAdjacentHTML('beforeend',this.getTransactionHTML(data[i]));
+    }
   }
 }

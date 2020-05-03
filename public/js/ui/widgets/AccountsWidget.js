@@ -13,16 +13,13 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    try
-    {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
       this.element = element;
       this.registerEvents();
       this.update();
-    }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
     }
   }
 
@@ -35,20 +32,31 @@ class AccountsWidget {
    * */
   registerEvents() {
     function createAccF (event) {
+      event.preventDefault();
       if(event.target.classList.contains('create-account'))
       {
-        event.preventDefault();
         App.getModal('createAccount').open();
       }
-      if(event.target.classList.contains('account'))
+      if(event.target.parentElement.classList.contains('account'))
       {
-      event.prevenDefault();
-      AccountsWidget.onSelectAccount(event.target);
+      //event.prevenDefault();
+      this.onSelectAccount(event.target.parentElement);
       }
     }
     //let createAccBut = document.querySelector('.create-account');
     //let currAccBut = document.querySelectorAll('.account');
-    window.addEventListener('click',createAccF);
+    this.element.addEventListener('click',(event) => {
+      event.preventDefault();
+      if(event.target.classList.contains('create-account'))
+      {
+        App.getModal('createAccount').open();
+      }
+      if(event.target.parentElement.classList.contains('account'))
+      {
+      //event.prevenDefault();
+      this.onSelectAccount(event.target.parentElement);
+      }
+    });
    // for (let i =0;i<currAccBut.length;i++)
    // {
    //     currAccBut[i].addEventListener('click',currAccF);
@@ -70,10 +78,10 @@ class AccountsWidget {
      {
       let bills = [];  
       Account.list(User.current(),(err,response) => {
-         if(!err && response.transactions) 
+         if(response.success && response.data) 
          {
              bills = [];
-             bills = response.transactions;
+             bills = response.data;
              this.clear();
              for (let i =0; i<bills.length; i++)
              {
@@ -106,7 +114,10 @@ class AccountsWidget {
    * */
   onSelectAccount( element ) {
    let actEl = document.querySelector('.active');
-    actEl.classList.remove('active');
+    if(actEl) 
+    {
+        actEl.classList.remove('active');
+    }
     element.classList.add('active');
     App.showPage( 'transactions', { 'account_id': element.dataset.id });
   }
@@ -117,7 +128,7 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-    let s = `<li class="active account" data-id="${item.id}">
+    let s = `<li class="account" data-id="${item.id}">
     <a href="#">
         <span>${item.name}</span> /
         <span>${item.sum} ₽</span>

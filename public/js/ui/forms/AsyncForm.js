@@ -13,15 +13,12 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor( element ) {
-    try
-    {
+    if(!element){
+      throw new Error('элемент не найден');
+    }
+    else {
       this.element = element;
       this.registerEvents();
-    }
-    catch(e)
-    {
-      alert('Элемент не найден');
-      return e;
     }
   }
 
@@ -51,7 +48,7 @@ class AsyncForm {
     let inputs = this.element.getElementsByTagName('input');
     for (let i =0;i<inputs.length;i++)
     {
-       obj[`${inputs[i].name}`] = `${inputs[i].value}`;
+      obj[inputs[i].name] = inputs[i].value;
     }
     return obj;
   }
