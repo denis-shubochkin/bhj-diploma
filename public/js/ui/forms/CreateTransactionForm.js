@@ -31,6 +31,7 @@ class CreateTransactionForm extends AsyncForm {
          {
              bills = [];
              bills = response.data;
+             this.element.querySelector('.accounts-select').options.length = 0;
              for (let i =0;i<bills.length;i++){
                this.element.querySelector('.accounts-select').insertAdjacentHTML('beforeEnd',
                `<option value="${bills[i].id}">${bills[i].name}</option>`
@@ -49,13 +50,14 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit( options ) {
-    Transaction.create(options, (err,response) => {
+    Transaction.create(options.data, (err,response) => {
       if(response.success)
       {
         this.element.reset();
         if(this.element.id==='new-income-form') {App.getModal('newIncome').close();}
         if(this.element.id==='new-expense-form') {App.getModal('newExpense').close();}
         App.update();
+        //App.showPage( 'transactions', { 'account_id': options.data.account_id });
       }
     })
   }

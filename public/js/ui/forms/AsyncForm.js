@@ -46,9 +46,14 @@ class AsyncForm {
   getData() {
     let obj = {};
     let inputs = this.element.getElementsByTagName('input');
+    let select = this.element.getElementsByTagName('select');
     for (let i =0;i<inputs.length;i++)
     {
       obj[inputs[i].name] = inputs[i].value;
+    }
+    if(select.length > 0) 
+    {
+      obj[select[0].name] = select[0].value;
     }
     return obj;
   }

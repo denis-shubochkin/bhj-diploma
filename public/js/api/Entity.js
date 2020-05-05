@@ -44,11 +44,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
-   // const modifiedData = Object.assign({ id: id }, data );  
+    const modifiedData = Object.assign({ id: id }, data );  
     const xhr = createRequest({
-      data: data,
+      data: modifiedData,
       method: 'GET',
-      url: this.host + this.url + `/${id}`,
+      url: this.host + this.url,
       callback 
     })
     //callback(err,response);
@@ -60,13 +60,14 @@ class Entity {
    * */
   static remove( id = '', data, callback = f => f ) {
     let modifiedData = Object.assign({ _method: 'DELETE'}, data );
+    console.log(this);
+    modifiedData.id = id;
     const xhr = createRequest({
       data: modifiedData,
       method: 'POST',
-      url: this.host + this.url + `/${id}`,
+      url: this.host + this.url, //+ `/${id}`,
       callback
     })
-    
   }
 }
 

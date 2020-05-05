@@ -23,8 +23,8 @@ class TransactionsPage {
   /**
    * Вызывает метод render для отрисовки страницы
    * */
-  update(options) {
-    this.render(options);
+  update() {
+    this.render(this.lastOptions);
   }
 
   /**
@@ -48,14 +48,15 @@ class TransactionsPage {
    // let accDel = this.element.querySelector('.remove-account');
    // let transDel = this.element.querySelector('.transaction__remove');
     this.element.addEventListener('click',(event) => {
+      event.preventDefault();
       if(event.target.classList.contains('remove-account'))
-      {event.preventDefault();
-      this.removeAccount();
+      {
+        //event.preventDefault();
+        this.removeAccount();
       }
       if(event.target.classList.contains('transaction__remove'))
       {
-      event.preventDefault();
-      this.removeTransaction(event.target.dataset.id);
+        this.removeTransaction(event.target.dataset.id);
       }
     })
   // if(transDel) {transDel.addEventListener('click',removeTransF);}
@@ -80,7 +81,7 @@ class TransactionsPage {
     {
       if(confirm('Вы действительно хотите удалить счёт?'))
       {
-          Account.remove(lastOptions.account_id,User.current(),(err,response) => {
+          Account.remove(this.lastOptions.account_id,User.current(),(err,response) => {
             if(response.success){
               App.update();
             }
@@ -121,16 +122,17 @@ if(!options)
 }
 else 
 {
-  let lastOptions = options;
-  Account.get(lastOptions.account_id, (err,response) => {
-    if(response.success)
+  this.lastOptions = options;
+  Account.get(this.lastOptions.account_id, {} , (err,response) => {
+    if(response.data.id)
     {
-      this.element.renderTitle(response.data.name);
+      this.renderTitle(response.data.name);
+      
     }
   })
-  Transaction.list(User.current(),(err,response) => {
+  Transaction.list(this.lastOptions,(err,response) => {
     if(response.success) {
-      this.element.renderTransactions(response.data);
+      this.renderTransactions(response.data);
     }
   })
 }
@@ -173,7 +175,9 @@ let month = [
   'ноября',
   'декабря'
 ]
-return `${a.getDate()} ${month[a.getMonth()]} ${a.getFullYear()} г. в ${a.getHours()}:${a.getMinutes()}`
+
+let res = `${a.getDate()} ${month[a.getMonth()]} ${a.getFullYear()} г. в ${a.getHours()}:${a.getMinutes()}`;
+return res;
   }
 
   /**
@@ -181,32 +185,33 @@ return `${a.getDate()} ${month[a.getMonth()]} ${a.getFullYear()} г. в ${a.getH
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML( item ) {
-    return 
-    `<!-- либо transaction_expense, либо transaction_income -->
-<div class="transaction transaction_${item.type} row">
-    <div class="col-md-7 transaction__details">
-      <div class="transaction__icon">
-          <span class="fa fa-money fa-2x"></span>
-      </div>
-      <div class="transaction__info">
-          <h4 class="transaction__title">${item.name}</h4>
-          <!-- дата -->
-          <div class="transaction__date">${this.formatDate(item.date)}</div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="transaction__summ">
-      <!--  сумма -->
-          ${item.sum} <span class="currency">₽</span>
-      </div>
-    </div>
-    <div class="col-md-2 transaction__controls">
-        <!-- в data-id нужно поместить id -->
-        <button class="btn btn-danger transaction__remove" data-id="${item.id}">
-            <i class="fa fa-trash"></i>  
-        </button>
-    </div>
-</div>`
+    let a = `<!-- либо transaction_expense, либо transaction_income -->
+    <div class="transaction transaction_${item.type} row">
+        <div class="col-md-7 transaction__details">
+          <div class="transaction__icon">
+              <span class="fa fa-money fa-2x"></span>
+          </div>
+          <div class="transaction__info">
+              <h4 class="transaction__title">${item.name}</h4>
+              <!-- дата -->
+              <div class="transaction__date">${this.formatDate(item.created_at)}</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="transaction__summ">
+          <!--  сумма -->
+              ${item.sum} <span class="currency">₽</span>
+          </div>
+        </div>
+        <div class="col-md-2 transaction__controls">
+            <!-- в data-id нужно поместить id -->
+            <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+                <i class="fa fa-trash"></i>  
+            </button>
+        </div>
+    </div>`
+    return a;
+    
   }
 
   /**
@@ -215,9 +220,18 @@ return `${a.getDate()} ${month[a.getMonth()]} ${a.getFullYear()} г. в ${a.getH
    * */
   renderTransactions( data ) {
     let content = document.querySelector('.content');
-    for (let i=0;i<data.length;i++)
+    let transactions = content.querySelectorAll('.transaction');
+    for (let k=0;k<transactions.length;k++){
+      transactions[k].remove();
+    }
+    if(data!= undefined)
     {
-        content.insertAdjacentHTML('beforeend',this.getTransactionHTML(data[i]));
+      for (let i=0;i<data.length;i++)
+      {
+          content.insertAdjacentHTML('beforeend',this.getTransactionHTML(data[i]));
+      }
     }
   }
 }
+
+TransactionsPage.lastOptions = '';
