@@ -186,7 +186,7 @@ return res;
    * */
   getTransactionHTML( item ) {
     let a = `<!-- либо transaction_expense, либо transaction_income -->
-    <div class="transaction transaction_${item.type} row">
+    <div class="transaction transaction_${item.type.toLocaleLowerCase()} row">
         <div class="col-md-7 transaction__details">
           <div class="transaction__icon">
               <span class="fa fa-money fa-2x"></span>

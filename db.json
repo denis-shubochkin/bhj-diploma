@@ -6,6 +6,13 @@
       "password": "demo",
       "id": "1",
       "isAuthorized": false
+    },
+    {
+      "name": "temp",
+      "email": "1@1.ru",
+      "password": "temp",
+      "id": "9wwxf3fsk9vrhkx9",
+      "isAuthorized": true
     }
   ],
   "accounts": [
@@ -23,6 +30,16 @@
       "name": "Бизнес",
       "user_id": "1",
       "id": "3"
+    },
+    {
+      "name": "Сбербанк",
+      "user_id": "9wwxf3fsk9vrhkx9",
+      "id": "9wwxfewwk9vrp17m"
+    },
+    {
+      "name": "ВТБ",
+      "user_id": "9wwxf3fsk9vrhkx9",
+      "id": "9wwxf9agk9vrp5hm"
     }
   ],
   "transactions": [
@@ -160,6 +177,104 @@
       "sum": 300000,
       "type": "EXPENSE",
       "user_id": "1"
+    },
+    {
+      "type": "INCOME",
+      "name": "Зарплата",
+      "sum": 20000,
+      "account_id": "9wwxf7aok9vrhwxe",
+      "created_at": "2020-05-06T19:56:18.936Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 100,
+      "account_id": "9wwxf7aok9vrhwxe",
+      "created_at": "2020-05-06T19:57:20.955Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 100,
+      "account_id": "9wwxf7aok9vrhwxe",
+      "created_at": "2020-05-06T19:57:37.735Z"
+    },
+    {
+      "type": "INCOME",
+      "name": "зп",
+      "sum": 20000,
+      "account_id": "9wwxfewwk9vrp17m",
+      "created_at": "2020-05-06T20:01:47.945Z"
+    },
+    {
+      "type": "INCOME",
+      "name": "зп",
+      "sum": 22000,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:01:55.162Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 100,
+      "account_id": "9wwxfewwk9vrp17m",
+      "created_at": "2020-05-06T20:02:06.508Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 20,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:02:18.021Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 20,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:09:35.348Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 20,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:09:59.105Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 20,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:10:15.998Z"
+    },
+    {
+      "type": "INCOME",
+      "name": "зп",
+      "sum": 20,
+      "account_id": "9wwxf9agk9vrp5hm",
+      "created_at": "2020-05-06T20:14:51.736Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "покупка",
+      "sum": 20,
+      "account_id": "9wwxfewwk9vrp17m",
+      "created_at": "2020-05-06T20:21:05.930Z"
+    },
+    {
+      "type": "INCOME",
+      "name": "зп",
+      "sum": 20,
+      "account_id": "9wwxfewwk9vrp17m",
+      "created_at": "2020-05-06T20:45:53.687Z"
+    },
+    {
+      "type": "EXPENSE",
+      "name": "зп",
+      "sum": 20,
+      "account_id": "9wwxfecck9vtbkjg",
+      "created_at": "2020-05-06T20:47:12.516Z"
     }
   ]
 }

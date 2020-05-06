@@ -28,8 +28,7 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f ) {
-   // console.log(data);
-    const modifiedData = Object.assign({ _method: 'PUT' }, data );
+   const modifiedData = Object.assign({ _method: 'PUT' }, data );
     const xhr = createRequest({
       data: modifiedData,
       method: 'POST',
@@ -44,11 +43,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
-    const modifiedData = Object.assign({ id: id }, data );  
+    //const modifiedData = Object.assign({ id: id }, data );  
     const xhr = createRequest({
-      data: modifiedData,
+      data: data,
       method: 'GET',
-      url: this.host + this.url,
+      url: this.host + this.url + "/"+ id,
       callback 
     })
     //callback(err,response);
@@ -60,7 +59,7 @@ class Entity {
    * */
   static remove( id = '', data, callback = f => f ) {
     let modifiedData = Object.assign({ _method: 'DELETE'}, data );
-    console.log(this);
+    //console.log(this);
     modifiedData.id = id;
     const xhr = createRequest({
       data: modifiedData,
@@ -72,5 +71,6 @@ class Entity {
 }
 
 Entity.url = '';
-Entity.host= 'https://bhj-diplom.letsdocode.ru';
+Entity.host= 'http://localhost:8000';
+
 
